@@ -4,9 +4,11 @@ import TOC from "./TOC";
 import Lab2 from "./Lab2";
 import Lab3 from "./Lab3";
 
+// Aaron Johnson
 export default function Labs() {
     return (
         <div id="wd-labs">
+            <h1>Aaron Johnson : Jose Tues/Friday @ 3:25</h1>
             <h1>Labs</h1>
             <TOC />
             <Routes>
