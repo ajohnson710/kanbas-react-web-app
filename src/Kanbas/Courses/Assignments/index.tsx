@@ -5,8 +5,12 @@ import AssignmentControlButtons from "./AssignmentControlButtons";
 import { MdAssignment } from "react-icons/md";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { IoEllipsisVertical } from "react-icons/io5";
+import { useParams } from "react-router-dom";
+import * as db from "../../Database";
 
 export default function Assignments() {
+    const { cid } = useParams();
+    const assignments = db.assignments;
     return (
         <div id="wd-assignments">
             <div className="float-end">
@@ -28,76 +32,37 @@ export default function Assignments() {
             <br /><br /><br />
 
             <ul id="wd-assignments" className="list-group rounded-0">
-                <li className="list-group-item p-0 mb-5 fs-5 border-gray">
+                <li className="list-group-item p-0  fs-5 border-gray">
                     <div className="wd-title p-3 ps-2 bg-secondary">
                         <BsGripVertical className="me-2 fs-3" />
                         <IoMdArrowDropdown />
                         Assignments
                         <AssignmentControlButtons />
                     </div>
-                    <ul className="wd-lessons list-group rounded-0">
-                        <li className="wd-lesson list-group-item p-3 ps-1">
-                            <div>
-                                <BsGripVertical className="float-start mt-4 me-2 fs-2" />
-                                <MdAssignment className="float-start mt-4 me-3 fs-2" />
-                                <ul className="float-start list-unstyled fs-5">
-                                    <li><h4><b> <a className="wd-assignment-link"
-                                        href="#/Kanbas/Courses/1234/Assignments/123">
-                                        A1 - ENV + HTML
-                                    </a></b></h4></li>
-                                    <li><span className="text-danger">Mutiple Modules</span> | <b>Not available until</b> May 6 at 12:00am</li>
-                                    <li><b>Due</b> May 13 at 11:59pm | 100pts</li>
-                                </ul>
-                                <div className="float-end mt-4" >
-                                    <GreenCheckmark />
-                                    <IoEllipsisVertical className="fs-4" />
-                                </div>
-                            </div>
-                        </li>
-                        <li className="wd-lesson list-group-item p-3 ps-1">
-                            <div>
-                                <BsGripVertical className="float-start mt-4 me-2 fs-2" />
-                                <MdAssignment className="float-start mt-4 me-3 fs-2" />
-                                <ul className="float-start list-unstyled fs-5">
-                                    <li><h4><b><a className="wd-assignment-link"
-                                        href="#/Kanbas/Courses/1234/Assignments/123">
-                                        A2 - CSS + BOOTSTRAP
-                                    </a></b></h4></li>
-                                    <li><span className="text-danger">Mutiple Modules</span> | <b>Not available until</b> May 6 at 12:00am</li>
-                                    <li><b>Due</b> May 13 at 11:59pm | 100pts</li>
-                                </ul>
-                                <div className="float-end mt-4" >
-                                    <GreenCheckmark />
-                                    <IoEllipsisVertical className="fs-4" />
-                                </div>
-                            </div>
-                        </li>
-                        <li className="wd-lesson list-group-item p-3 ps-1">
-                            <div>
-                                <BsGripVertical className="float-start mt-4 me-2 fs-2" />
-                                <MdAssignment className="float-start mt-4 me-3 fs-2" />
-                                <ul className="float-start list-unstyled fs-5">
-                                    <li><h4><b><a className="wd-assignment-link"
-                                        href="#/Kanbas/Courses/1234/Assignments/123">
-                                        A3 - JAVASCRIPT + REACT
-                                    </a></b></h4></li>
-                                    <li><span className="text-danger">Mutiple Modules</span> | <b>Not available until</b> May 6 at 12:00am</li>
-                                    <li><b>Due</b> May 13 at 11:59pm | 100pts</li>
-                                </ul>
-                                <div className="float-end mt-4" >
-                                    <GreenCheckmark />
-                                    <IoEllipsisVertical className="fs-4" />
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
                 </li>
+                {assignments
+                    .filter((assignment: any) => assignment.course === cid)
+                    .map((assignment, index) => (
+                        <li key={index} className="wd-lesson list-group-item p-3 ps-3">
+                            <div>
+                                <BsGripVertical className="float-start mt-4 me-2 fs-2" />
+                                <MdAssignment className="float-start mt-4 me-3 fs-2" />
+                                <ul className="float-start list-unstyled fs-5">
+                                    <li><h4><b><a className="wd-assignment-link"
+                                        href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                                        {assignment.title}
+                                    </a></b></h4></li>
+                                    <li><span className="text-danger"> Multiple Modules</span> | <b>Not available until</b> {assignment.availableDate}</li>
+                                    <li><b>Due</b> {assignment.dueDate} | {assignment.points}pts</li>
+                                </ul>
+                                <div className="float-end mt-4" >
+                                    <GreenCheckmark />
+                                    <IoEllipsisVertical className="fs-4" />
+                                </div>
+                            </div>
+                        </li>
+                    ))}
             </ul>
-
-
-
-
-
         </div >
     );
 }
