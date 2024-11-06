@@ -6,10 +6,8 @@ import { MdAssignment } from "react-icons/md";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
-import * as db from "../../Database";
 import { useSelector, useDispatch } from "react-redux";
-import AssignmentEditor from "./Editor";
-import { deleteAssignment, updateAssignment } from "./reducer";
+import { deleteAssignment } from "./reducer";
 
 export default function Assignments() {
     const { cid } = useParams();

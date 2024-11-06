@@ -7,7 +7,6 @@ export default function AssignmentEditor() {
     const { cid, aid } = useParams();
     const navigate = useNavigate();
     const { assignments } = useSelector((state: any) => state.assignmentReducer);
-    const newAsgn = aid === "newAID";
     const dispatch = useDispatch();
 
 
@@ -28,9 +27,6 @@ export default function AssignmentEditor() {
         availableUntil: "",
         ...currentassignment,
     });
-
-
-
 
 
     return (
