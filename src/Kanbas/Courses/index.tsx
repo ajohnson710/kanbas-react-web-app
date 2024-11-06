@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useParams, useLocation, useNavigate } from "react-router";
+import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import Modules from "./Modules";
 import Home from "./Home";
 import CoursesNavigation from "./Navigation";
