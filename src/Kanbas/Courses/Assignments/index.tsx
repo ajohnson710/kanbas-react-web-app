@@ -8,7 +8,6 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import * as db from "../../Database";
 import { useSelector, useDispatch } from "react-redux";
-import { addAssignment, editAssignment } from "./reducer";
 import AssignmentEditor from "./Editor";
 
 export default function Assignments() {
@@ -17,9 +16,10 @@ export default function Assignments() {
     const db_assignments = db.assignments;
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { assignments } = useSelector((state: any) => state.assignmentReducer);
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-    const { assignment } = useSelector((state: any) => state.accountReducer);
+
     return (
         <div id="wd-assignments">
             {(currentUser.role === "FACULTY") && (
@@ -31,9 +31,7 @@ export default function Assignments() {
                         id="wd-add-assignment"
                         className="btn btn-danger"
                         onClick={() => {
-                            const newAssignmentId = new Date().getTime().toString();
-                            dispatch(addAssignment({ ...assignment, _id: newAssignmentId, course: cid }));
-                            navigate(`/Kanbas/Courses/${cid}/Assignments/${newAssignmentId}`);
+                            navigate(`/Kanbas/Courses/${cid}/Assignments/newAID`);
                         }}>
 
                         <FaPlus className="p-0 mb-1 fs-9" />
@@ -62,9 +60,9 @@ export default function Assignments() {
                         )}
                     </div>
                 </li>
-                {db_assignments
+                {assignments
                     .filter((assignment: any) => assignment.course === cid)
-                    .map((assignment, index) => (
+                    .map((assignment: any, index: any) => (
                         <li key={index} className="wd-lesson list-group-item p-3 ps-3">
                             <div>
                                 <BsGripVertical className="float-start mt-4 me-2 fs-2" />
