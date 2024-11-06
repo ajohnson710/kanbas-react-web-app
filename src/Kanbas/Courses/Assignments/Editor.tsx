@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { addAssignment } from "./reducer";
+import { addAssignment, updateAssignment } from "./reducer";
 
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();
@@ -11,8 +11,10 @@ export default function AssignmentEditor() {
     const dispatch = useDispatch();
 
 
+    const currentassignment = assignments.find((assignment: any) => assignment._id === aid);
 
-    const [assignment, setAssignment] = useState({
+
+    const [asn, setAssignment] = useState({
         title: "title",
         description: "desc",
         points: 0,
@@ -24,11 +26,12 @@ export default function AssignmentEditor() {
         dueDate: "",
         availableDate: "",
         availableUntil: "",
+        ...currentassignment,
     });
 
-    const currentassignment = assignments.find((assignment: any) => assignment._id === aid);
 
-    const asn = newAsgn ? assignment : currentassignment;
+
+
 
     return (
         <div id="wd-assignments-editor">
@@ -38,11 +41,11 @@ export default function AssignmentEditor() {
                 <br></br>
                 <input id="wd-name" className="form-control mb-2" value={asn.title}
                     onChange={(e) =>
-                        setAssignment({ ...assignment, title: e.target.value })
+                        setAssignment({ ...asn, title: e.target.value })
                     } /><br /><br />
                 <textarea id="wd-description" className="form-control mb-2" rows={10} cols={40}
                     onChange={(e) =>
-                        setAssignment({ ...assignment, description: e.target.value })
+                        setAssignment({ ...asn, description: e.target.value })
                     }>
                     {asn.description}
                 </textarea>
@@ -56,7 +59,7 @@ export default function AssignmentEditor() {
                         <div className="col-8">
                             <input id="wd-points" className="form-control mb-2" value={`${asn.points}`}
                                 onChange={(e) =>
-                                    setAssignment({ ...assignment, points: parseInt(e.target.value) })
+                                    setAssignment({ ...asn, points: Number(e.target.value) })
                                 } />
                         </div>
                     </div>
@@ -68,7 +71,7 @@ export default function AssignmentEditor() {
                         <div className="col-8">
                             <select id="wd-group" className="form-control mb-2"
                                 onChange={(e) =>
-                                    setAssignment({ ...assignment, group: (e.target.value) })
+                                    setAssignment({ ...asn, group: (e.target.value) })
                                 }>
                                 <option>ASSIGNMENTS</option>
                             </select>
@@ -82,7 +85,7 @@ export default function AssignmentEditor() {
                         <div className="col-8">
                             <select id="wd-display-grade-as" className="form-select mb-2"
                                 onChange={(e) =>
-                                    setAssignment({ ...assignment, displayGradeAs: (e.target.value) })
+                                    setAssignment({ ...asn, displayGradeAs: (e.target.value) })
                                 }>
                                 <option>PERCENTAGE</option>
                                 <option>DECIMAL</option>
@@ -151,7 +154,13 @@ export default function AssignmentEditor() {
                         <button
                             className="btn btn-sm signout-btn text-white me-2 mt-1 "
                             onClick={() => {
-                                dispatch(addAssignment(assignment));
+                                const existingAssignment = assignments.find((assignment: any) => assignment._id === aid);
+                                if (existingAssignment) {
+                                    dispatch(updateAssignment({ ...asn, _id: aid }));
+                                } else {
+
+                                    dispatch(addAssignment(asn));
+                                }
                                 navigate(`/Kanbas/Courses/${cid}/Assignments/`);
                             }}>Save</button>
                     </div>

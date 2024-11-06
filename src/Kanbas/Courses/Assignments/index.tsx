@@ -1,6 +1,6 @@
 import { BsGripVertical } from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io"
-import { FaMagnifyingGlass, FaPlus } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaPencil, FaPlus, FaTrash } from "react-icons/fa6";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import { MdAssignment } from "react-icons/md";
 import GreenCheckmark from "../Modules/GreenCheckmark";
@@ -9,15 +9,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as db from "../../Database";
 import { useSelector, useDispatch } from "react-redux";
 import AssignmentEditor from "./Editor";
+import { deleteAssignment, updateAssignment } from "./reducer";
 
 export default function Assignments() {
     const { cid } = useParams();
-
-    const db_assignments = db.assignments;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { assignments } = useSelector((state: any) => state.assignmentReducer);
-
     const { currentUser } = useSelector((state: any) => state.accountReducer);
 
     return (
@@ -80,6 +78,9 @@ export default function Assignments() {
                                 </ul>
                                 {(currentUser.role === "FACULTY") && (
                                     <div className="float-end mt-4" >
+                                        <FaPencil onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`)} className="text-primary me-3" />
+                                        <FaTrash className="text-danger me-2 fs-4"
+                                            onClick={() => dispatch(deleteAssignment(assignment._id))} />
                                         <GreenCheckmark />
                                         <IoEllipsisVertical className="fs-4" />
                                     </div>
