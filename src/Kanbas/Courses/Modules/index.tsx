@@ -38,7 +38,7 @@ export default function Modules() {
     };
     useEffect(() => {
         fetchModules();
-    }, []);
+    });
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     return (
