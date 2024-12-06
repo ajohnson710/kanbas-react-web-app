@@ -38,7 +38,8 @@ export default function Modules() {
     };
     useEffect(() => {
         fetchModules();
-    });
+        // eslint-disable-next-line
+    }, []);
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     return (

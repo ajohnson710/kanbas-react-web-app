@@ -24,7 +24,10 @@ export default function Profile() {
     };
 
     // eslint-disable-next-line 
-    useEffect(() => { fetchProfile(); }, []);
+    useEffect(() => {
+        fetchProfile();
+        //eslint-disable-next-line
+    }, [currentUser]);
     return (
         <div className="wd-profile-screen">
             <h3>Profile</h3>

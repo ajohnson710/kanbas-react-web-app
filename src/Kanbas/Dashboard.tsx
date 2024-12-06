@@ -4,11 +4,13 @@ import { useSelector } from "react-redux";
 
 export default function Dashboard({
     courses, course, setCourse, addNewCourse,
-    deleteCourse, updateCourse }: {
+    deleteCourse, updateCourse, enrolling, setEnrolling, updateEnrollment }: {
         courses: any[]; course: any; setCourse: (course: any) => void;
         addNewCourse: () => void; deleteCourse: (course: any) => void;
-        updateCourse: () => void;
+        updateCourse: () => void; enrolling: boolean; setEnrolling: (enrolling: boolean) => void;
+        updateEnrollment: (courseId: string, enrolled: boolean) => void
     }) {
+    console.log("Dashboard courses", courses);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     return (
         <div id="wd-dashboard">
@@ -44,6 +46,15 @@ export default function Dashboard({
                                     <img src="/images/reactjs.jpg" width="100%" height={160} alt="Nothing" />
                                     <div className="card-body">
                                         <h5 className="wd-dashboard-course-title card-title">
+                                            {enrolling && (
+                                                <button onClick={(event) => {
+                                                    event.preventDefault();
+                                                    updateEnrollment(course._id, !course.enrolled);
+                                                }}
+                                                    className={`btn ${course.enrolled ? "btn-danger" : "btn-success"} float-end`} >
+                                                    {course.enrolled ? "Unenroll" : "Enroll"}
+                                                </button>
+                                            )}
                                             {course.name}
                                         </h5>
                                         <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>

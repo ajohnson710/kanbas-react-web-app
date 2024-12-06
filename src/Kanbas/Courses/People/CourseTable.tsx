@@ -1,8 +1,26 @@
 import { FaUserCircle } from "react-icons/fa";
 import PeopleDetails from "./Details";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import * as client from "../client";
+import { useSelector } from "react-redux";
 
-export default function PeopleTable({ users = [] }: { users?: any[] }) {
+export default function CoursesTable({ users = [] }: { users?: any[] }) {
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const [people, setPeople] = useState([]);
+    const { cid } = useParams<{ cid: string }>();
+
+    const fetchPeople = async () => {
+        const enrolled_people = await client.findUsersForCourse(cid as string);
+        console.log(enrolled_people);
+        const filtered_people = enrolled_people.filter((user: any) => user != null && user._id !== null);
+        console.log(filtered_people);
+        setPeople(filtered_people);
+    };
+
+    useEffect(() => {
+        fetchPeople();
+    }, []);
 
     return (
         <div id="wd-people-table">
@@ -12,7 +30,7 @@ export default function PeopleTable({ users = [] }: { users?: any[] }) {
                     <tr><th>Name</th><th>Login ID</th><th>Section</th><th>Role</th><th>Last Activity</th><th>Total Activity</th></tr>
                 </thead>
                 <tbody>
-                    {users.map((user: any) => (
+                    {people.map((user: any) => (
                         <tr key={user._id}>
                             <td className="wd-full-name text-nowrap">
                                 <Link to={`/Kanbas/Account/Users/${user._id}`} className="text-decoration-none">
