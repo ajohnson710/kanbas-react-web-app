@@ -85,6 +85,7 @@ export default function Kanbas() {
     };
 
     const deleteCourse = async (courseId: any) => {
+        // eslint-disable-next-line
         const status = await courseClient.deleteCourse(courseId);
         setCourses(courses.filter((course) => course._id !== courseId));
     };

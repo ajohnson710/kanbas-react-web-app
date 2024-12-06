@@ -3,10 +3,8 @@ import PeopleDetails from "./Details";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import * as client from "../client";
-import { useSelector } from "react-redux";
 
 export default function CoursesTable({ users = [] }: { users?: any[] }) {
-    const { currentUser } = useSelector((state: any) => state.accountReducer);
     const [people, setPeople] = useState([]);
     const { cid } = useParams<{ cid: string }>();
 
@@ -20,6 +18,7 @@ export default function CoursesTable({ users = [] }: { users?: any[] }) {
 
     useEffect(() => {
         fetchPeople();
+        // eslint-disable-next-line
     }, []);
 
     return (

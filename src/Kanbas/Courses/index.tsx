@@ -5,7 +5,6 @@ import CoursesNavigation from "./Navigation";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
-import PeopleTable from "./People/Table";
 import CourseTable from "./People/CourseTable";
 
 
